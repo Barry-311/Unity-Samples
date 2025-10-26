@@ -26,13 +26,13 @@ public class RayShooter : MonoBehaviour
         float posY = cam.pixelHeight / 2 - size / 2;
 
         // displays "*" in the crentre of screen
-        GUI.Label(new Rect(posX, posY, size, size), "*");
+        GUI.Label(new Rect(posX, posY, size * 2, size * 2), "+");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)) // 左键0 右键1 中键2
         {
             Vector3 point = new Vector3(cam.pixelWidth / 2, cam.pixelHeight / 2, 0);
 
@@ -49,10 +49,22 @@ public class RayShooter : MonoBehaviour
                 // 检查该对象是否有 ChangeColour 组件
                 ChangeColour target = hitObject.GetComponent<ChangeColour>();
 
+                RaycastLine();
+
                 // 如果对象有 ChangeColour 组件，调用 SetRandomColour 方法
                 if (target != null)
                     target.SetRandomColour();
             }
         }
+    }
+
+    void RaycastLine()
+    {
+        // just for debug: draw the ray in the Scene view
+        Debug.DrawRay(
+            cam.transform.position,
+            cam.transform.forward * 100,
+            Color.red,
+            1.0f);
     }
 }
